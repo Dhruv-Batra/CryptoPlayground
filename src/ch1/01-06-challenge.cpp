@@ -50,9 +50,12 @@ int main()
 
         hashValue = MyHash(plaintext, fileLength);
     */
-    hashValue = MyHash("QUITE THE TEST CASE YOU HAVE THERE", 34);
+    char input[] = "QUITE THE TEST CASE YOU HAVE THERE";
 
-    cout << "The hash value is: 0x" << hex << setfill('0')
+    hashValue = MyHash(input, 34);
+
+    cout << "The hash value is: 0x\n"
+         << hex << setfill('0')
          << uppercase << setw(16) << hashValue;
 
     return 0;
@@ -168,11 +171,24 @@ uint64_t MyHash(char *plaintext, uint64_t fileLen)
         // populate block bit by bit
         for (int i = 0; i < rem; i++)
         {
-            blocks[block_len - 1] |= ((uint64_t)(*curr)) << (i * 8);
+            blocks[block_len - 1] |= ((uint64_t)curr[i]) << (i * 8);
         }
     }
 
     // generate the hash using merkle-damguard structure
+    uint64_t prev = UINT64_MAX;
+    for (int i = 0; i < block_len; i++)
+    {
+        if (i == 0)
+        {
+            prev = MyCompression(blocks[0], iv);
+            continue;
+        }
+
+        prev = MyCompression(blocks[i], prev);
+    }
 
     free(blocks);
+
+    return MyCompression(fileLen, prev);
 }
