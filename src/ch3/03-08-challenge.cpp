@@ -18,7 +18,8 @@
 
 using namespace std;
 
-int main() {  
+int main()
+{
   //              V-----------------------------+-----+--+-----+
   int lfsr[16] = {0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0};
 
@@ -27,6 +28,22 @@ int main() {
   // should be an XOR of bits at positions 10, 12, 13, 15
   // Print the values that "fall out" of the register
 
+  for (int i = 0; i < 35; i++)
+  {
+    cout << lfsr[15] << " ";
+
+    int insert = lfsr[10] ^ lfsr[12] ^ lfsr[13] ^ lfsr[15];
+
+    // right shift by 1
+    for (int j = 15; j > 0; j--)
+    {
+      lfsr[j] = lfsr[j - 1];
+    }
+
+    lfsr[0] = insert;
+  }
+
+  cout << endl;
 
   return 0;
 }
