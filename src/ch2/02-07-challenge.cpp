@@ -18,21 +18,40 @@
 
 using namespace std;
 
-void printIntegerGrid(uint64_t input) {
+void printIntegerGrid(uint64_t input)
+{
 
-  // Add your code here!
+  // one line corresponds to one byte
+  // process the most significant bytes first
+  for (int i = 0; i < 64; i++)
+  {
+    if ((input >> (63 - i)) & 1)
+    {
+      cout << "*";
+    }
+    else
+    {
+      cout << "_";
+    }
+
+    if (i % 8 == 7)
+    {
+      cout << "\n";
+    }
+  }
 
   return;
 }
 
-int main() {  
+int main()
+{
   uint64_t userInput;
   uint64_t zeroTest = 0;
   uint64_t randomTest = 12133653013031549986U; // The u forces it to be unsigned
 
   cout << "Type a number to display: ";
   cin >> userInput;
-  
+
   cout << "\nHere's a zero grid:\n";
   printIntegerGrid(zeroTest);
 
